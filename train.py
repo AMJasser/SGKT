@@ -1,6 +1,8 @@
 from typing_extensions import final
 from model import SGKT
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import numpy as np
 import os
 from tqdm import tqdm
@@ -15,10 +17,12 @@ def train(args,train_dkt):
         print(args.model)
         model = SGKT(args)
         saver = tf.train.Saver()
+        print("If")
         if train_dkt:
             sess.run(tf.global_variables_initializer())
             model_dir = save_model_dir(args)
             best_valid_auc = 0
+            print("start training")
             for epoch in tqdm(range(args.num_epochs)):
                 train_generator = DataGenerator(args.train_seqs, args.max_step, batch_size=args.batch_size,
                                                 feature_size=args.feature_answer_size - 2,
@@ -40,6 +44,11 @@ def train(args,train_dkt):
                         preds.append(pred[seq_idx, 0:seq_len])
                         binary_preds.append(binary_pred[seq_idx, 0:seq_len])
                         targets.append(target_answers[seq_idx, 0:seq_len])
+                    if train_step % 10 == 0:
+                        print("train_step:", train_step)
+                        print("train_loss:", overall_loss / train_step)
+                        print("train_loop:", str(train_generator.batch_i) + " / " + str(len(train_generator.seqs)))
+                        print("train_batch:", train_generator.n_batch)
                 train_loss = overall_loss / train_step
                 preds = np.concatenate(preds)
                 binary_preds = np.concatenate(binary_preds)

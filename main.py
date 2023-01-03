@@ -1,7 +1,9 @@
 import argparse
 import time
 import os
-import tensorflow as tf
+# import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import numpy as np
 from numpy.distutils.fcompiler import str2bool
 from data_process import *
@@ -56,6 +58,7 @@ def main():
     fileObject.close()
     print(config)
     args = data_process(args)
+    print("data process done!")
     train(args,train_dkt)
     log_file = open(tag_path, 'w')
     log_file.write(str(tag))

@@ -30,8 +30,11 @@ def data_process(args):
     print(args.question_num)
     matrix_directory = os.path.join(args.data_dir, args.dataset, args.dataset + '_skill_matrix.txt')
     args.skill_matrix = np.loadtxt(matrix_directory) #multi-skill
+    print("started adj")
     qs_adj_list,interactions = build_adj_list(args.train_seqs,args.test_seqs,args.skill_matrix,args.qs_num)#[[neighbor skill/question] for all qs]]
+    print("built adj")
     args.question_neighbors,args.skill_neighbors = extract_qs_relations(qs_adj_list,args.skill_num,args.qs_num,args.question_neighbor_num,args.skill_neighbor_num)
+    print("qs relations")
     return args
 
 def select_part_seqs(min_len,max_len,seqs):

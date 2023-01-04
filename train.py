@@ -45,7 +45,7 @@ def train(args,train_dkt):
                         binary_preds.append(binary_pred[seq_idx, 0:seq_len])
                         targets.append(target_answers[seq_idx, 0:seq_len])
                     print("BATCH:", str(train_generator.n_batch) + " / " + str(len(train_generator.seqs)))
-                    print("LOSS:", str(overall_loss / train_step))
+                    print("LOSS:", str(overall_loss))
                 train_loss = overall_loss / train_step
                 preds = np.concatenate(preds)
                 binary_preds = np.concatenate(binary_preds)

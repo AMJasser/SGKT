@@ -114,6 +114,7 @@ def train(args,train_dkt):
                                                                                    recall))
             print(model_dir)
             write_log(args, model_dir, auc_value, accuracy, epoch, name='test_')
+    return model
 
 def save(global_step,sess,checkpoint_dir,saver):
     model_name = 'SGKT'
